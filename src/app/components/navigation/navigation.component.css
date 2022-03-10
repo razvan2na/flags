@@ -1,0 +1,11 @@
+.layout-wrapper{
+  height: 100%;
+}
+
+.flex-wrapper{
+  height: 100%;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}

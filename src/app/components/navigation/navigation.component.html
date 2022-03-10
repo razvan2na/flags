@@ -1,0 +1,24 @@
+<nav>
+  <mat-toolbar color="primary">
+    Flags
+
+    <span class="toolbar-spacer"></span>
+
+    <a mat-button color="link" [routerLink]='["./"]'>Home</a>
+
+    <div *ngIf="isAdmin">
+      <a mat-button color="link" [routerLink]='["./countries/index"]'>Countries</a>
+      <a mat-button color="link" [routerLink]='["./users/index"]'>Users</a>
+    </div>
+    
+    <div *ngIf="!isAuth">
+      <a mat-button color="link" [routerLink]='["./login"]'>Login</a>
+      <a mat-button color="link" [routerLink]='["./register"]'>Register</a>
+    </div>
+    <div *ngIf="isAuth">
+      <a mat-button color="link" (click)="logout()">Logout</a>
+    </div>
+  </mat-toolbar>
+</nav>
+
+<ng-content></ng-content>

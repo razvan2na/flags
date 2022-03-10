@@ -1,0 +1,18 @@
+<form>
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Code</mat-label>
+    <input matInput name="code" [(ngModel)]="country.code" placeholder="Code">
+  </mat-form-field>
+
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput name="name" [(ngModel)]="country.name" placeholder="Name">
+  </mat-form-field>
+
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Flag Link</mat-label>
+    <input matInput name="flagLink" [(ngModel)]="country.flagLink" placeholder="Flag Link">
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" (click)="save()" >Save</button>
+</form>

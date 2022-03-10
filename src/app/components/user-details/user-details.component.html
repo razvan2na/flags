@@ -1,0 +1,67 @@
+<div *ngIf="user">
+  <h3>{{user.username}}</h3>
+  <h4>{{user.email}}</h4>
+
+  <form>
+    <mat-form-field class="field" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput name="password" [(ngModel)]="password">
+    </mat-form-field>
+  
+    <button mat-flat-button color="primary" (click)="changePassword()">Change Password</button>
+  </form>
+
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <input type="text"
+             placeholder="Choose a country"
+             aria-label="Country"
+             matInput
+             [formControl] = "form"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="countrySelected($event.option)">
+        <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
+          {{country.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="addCountry()">Add</button>
+  </form>
+
+  <div *ngIf="user.countries.length > 0">
+    <table mat-table [dataSource]="user.countries">
+
+      <ng-container matColumnDef="flag">
+        <th mat-header-cell *matHeaderCellDef> Flag </th>
+        <td mat-cell *matCellDef="let country"> <img src="{{country.flagLink}}"/> </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let country"> {{country.name}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef> Code </th>
+        <td mat-cell *matCellDef="let country"> {{country.code}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let country">
+          <a mat-flat-button color="warn" (click)="removeCountry(country.code)">Delete</a>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: tableColumns"></tr>
+    
+    </table>
+  </div>
+
+  <div *ngIf="user.countries.length <= 0">
+    <h5>User does not have any countries.</h5>
+  </div>
+</div>

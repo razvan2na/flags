@@ -1,0 +1,18 @@
+<form>
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Username</mat-label>
+    <input matInput name="username" [(ngModel)]="request.username">
+  </mat-form-field>
+
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput name="email" [(ngModel)]="request.email">
+  </mat-form-field>
+
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput name="password" [(ngModel)]="request.password">
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" (click)="register()">Register</button>
+</form>
