@@ -11,9 +11,11 @@ import { RegistrationRequest } from 'src/app/models/registrationRequest';
 export class RegisterComponent implements OnInit {
 
   public request: RegistrationRequest = {
-    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
+    passwordConfirm: ''
   }
 
   constructor(private authService: AuthenticationService, private router: Router) { }

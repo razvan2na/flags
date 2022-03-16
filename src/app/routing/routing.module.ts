@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CountryIndexComponent } from '../components/country-index/country-index.component';
 import { CountryEditComponent } from '../components/country-edit/country-edit.component';
 import { CountryAddComponent } from '../components/country-add/country-add.component';
-import { LoginComponent } from '../components/authentication/login/login.component';
 import { RegisterComponent } from '../components/authentication/register/register.component';
 import { HomeComponent } from '../components/home/home.component';
 import { AuthGuard } from '../guards/auth.guard';
@@ -12,6 +11,8 @@ import { NotfoundComponent } from '../components/notfound/notfound.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { UserIndexComponent } from '../components/user-index/user-index.component';
 import { UserDetailsComponent } from '../components/user-details/user-details.component';
+import { AuthCallbackComponent } from '../components/auth-callback/auth-callback.component';
+import { LoginComponent } from '../components/authentication/login/login.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
@@ -23,9 +24,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forbidden', component: ForbiddenComponent },
-  { path: '404', component: NotfoundComponent },
+  { path: 'auth-callback', component: AuthCallbackComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: '404', pathMatch: 'full' }
 ]
 
 @NgModule({

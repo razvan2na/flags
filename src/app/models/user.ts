@@ -1,7 +1,7 @@
 import { Country } from './country'
 
 export interface User {
-  username: string,
+  fullName: string,
   email: string,
   countries: Country[]
 }

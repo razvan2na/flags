@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class UserIndexComponent implements OnInit {
 
   public users: User[] = [];
-  public tableColumns: string[] = ['username', 'email', 'actions']
+  public tableColumns: string[] = ['fullName', 'email', 'actions']
 
   constructor(private userService: UserService) { }
 

@@ -1,7 +1,12 @@
 <form>
   <mat-form-field class="field" appearance="fill">
-    <mat-label>Username</mat-label>
-    <input matInput name="username" [(ngModel)]="request.username">
+    <mat-label>First Name</mat-label>
+    <input matInput name="firstName" [(ngModel)]="request.firstName">
+  </mat-form-field>
+
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Last Name</mat-label>
+    <input matInput name="lastName" [(ngModel)]="request.lastName">
   </mat-form-field>
 
   <mat-form-field class="field" appearance="fill">
@@ -12,6 +17,11 @@
   <mat-form-field class="field" appearance="fill">
     <mat-label>Password</mat-label>
     <input type="password" matInput name="password" [(ngModel)]="request.password">
+  </mat-form-field>
+  
+  <mat-form-field class="field" appearance="fill">
+    <mat-label>Confirm Password</mat-label>
+    <input type="password" matInput name="passwordConfirm" [(ngModel)]="request.passwordConfirm">
   </mat-form-field>
 
   <button mat-flat-button color="primary" (click)="register()">Register</button>

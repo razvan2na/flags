@@ -10,23 +10,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  public request: AuthenticationRequest = {
-    email: '',
-    password: '',
-  }
-
   constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   public login(): void {
-    this.authService.login(this.request)
-      .subscribe(result => {
-        localStorage.setItem("token", result.token);
-        this.authService.changeAuthState(true);
-        this.router.navigate(["/home"]);
-      });
+    this.authService.login();
   }
 
 }

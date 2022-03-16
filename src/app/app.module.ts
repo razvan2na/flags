@@ -25,12 +25,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/authentication/login/login.component';
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { UserIndexComponent } from './components/user-index/user-index.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
+import { LoginComponent } from './components/authentication/login/login.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -44,12 +45,13 @@ export function tokenGetter() {
     CountryAddComponent,
     NavigationComponent,
     HomeComponent,
-    LoginComponent,
     RegisterComponent,
     ForbiddenComponent,
     NotfoundComponent,
     UserIndexComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AuthCallbackComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -1,15 +1,6 @@
 <div *ngIf="user">
-  <h3>{{user.username}}</h3>
+  <h3>{{user.fullName}}</h3>
   <h4>{{user.email}}</h4>
-
-  <form>
-    <mat-form-field class="field" appearance="fill">
-      <mat-label>Password</mat-label>
-      <input type="password" matInput name="password" [(ngModel)]="password">
-    </mat-form-field>
-  
-    <button mat-flat-button color="primary" (click)="changePassword()">Change Password</button>
-  </form>
 
   <form>
     <mat-form-field appearance="fill">

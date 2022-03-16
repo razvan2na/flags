@@ -22,7 +22,7 @@ export class NavigationComponent implements OnInit {
       this.isAdmin = this.authService.isAdmin();
     }
 
-    this.authService.authChanged
+    this.authService.authStatus
       .subscribe(result => {
         this.isAuth = result;
         
@@ -38,10 +38,12 @@ export class NavigationComponent implements OnInit {
       });
   }
 
+  public login(): void {
+    this.authService.login();
+  }
+
   public logout(): void {
-    localStorage.removeItem("token");
-    this.authService.changeAuthState(false);
-    this.router.navigate(["/login"]);
+    this.authService.logout();
   }
 
 }

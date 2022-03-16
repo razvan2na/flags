@@ -93,16 +93,6 @@ export class UserDetailsComponent implements OnInit {
     console.log(this.countryChoice)
   }
 
-  public changePassword(): void {
-    const request: AuthenticationRequest = {
-      email: this.user?.email ?? "",
-      password: this.password
-    }
-
-    this.authService.changePassword(request)
-      .subscribe(() => this.router.navigate(['/users/index']));
-  }
-
   private _filter(value: string): Country[] {
     const filterValue = value.toLowerCase();
 

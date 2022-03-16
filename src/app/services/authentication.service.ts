@@ -3,56 +3,63 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { RegistrationRequest } from '../models/registrationRequest';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { AuthenticationRequest } from '../models/authenticationRequest';
 import { AuthenticationResponse } from '../models/authenticationResponse';
 import { tokenGetter } from '../app.module';
+import { UserManager, UserManagerSettings, User } from 'oidc-client'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  private apiUrl: string = `${environment.apiUrl}/auth`;
+  private authUrl: string = `${environment.authUrl}`;
 
-  private authChangeSubject = new Subject<boolean>();
-  public authChanged = this.authChangeSubject.asObservable();
+  private _authStatus = new BehaviorSubject<boolean>(false);
+  public authStatus = this._authStatus.asObservable();
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
+  private manager = new UserManager(getClientSettings());
+  private user: User | null = null;
 
-  public login(request: AuthenticationRequest): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(`${this.apiUrl}/login`, request);
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
+    this.manager.getUser().then(user => {
+      this.user = user;
+      this._authStatus.next(this.isAuthenticated());
+    });
+  }
+
+  public login() {
+    return this.manager.signinRedirect();
+  }
+
+  public async completeLogin() {
+    this.user = await this.manager.signinRedirectCallback();
+    this._authStatus.next(this.isAuthenticated());
   }
 
   public register(request: RegistrationRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, request);
+    return this.http.post(`${this.authUrl}/Account/Register`, request);
   }
 
-  public changePassword(request: AuthenticationRequest): Observable<any> {
-    return this.http.put(`${this.apiUrl}/password-change`, request, {
-      headers : {
-          "Authorization": 'Bearer ' + tokenGetter()
-      }   
-    })
+  public async logout() {
+    await this.manager.signoutRedirect();
   }
 
-  public changeAuthState(isAuthenticated: boolean): void {
-    this.authChangeSubject.next(isAuthenticated);
+  public get authHeader(): string {
+    return `${this.user?.token_type} ${this.user?.access_token}`
+  }
+
+  public get name(): string {
+    return this.user?.profile.name ?? '';
   }
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-
-    if (token)
-    {
-      return !this.jwtHelper.isTokenExpired(token)
-    }
-
-    return false;
+    return this.user != null && !this.user.expired;
   } 
 
   public isAdmin(): boolean {
-    const token = localStorage.getItem('token');
+    const token = this.user?.access_token;
 
     if (!token)
     {
@@ -60,9 +67,24 @@ export class AuthenticationService {
     }
 
     const decodedToken = this.jwtHelper.decodeToken(token);
-    const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    const role = decodedToken["role"];
 
-    return role === "Admin";
+    return role === "admin";
   }
 
+}
+
+export function getClientSettings(): UserManagerSettings {
+  return {
+    authority: 'https://localhost:7257',
+    client_id: 'flags',
+    redirect_uri: 'http://localhost:4200/auth-callback',
+    post_logout_redirect_uri: 'http://localhost:4200/',
+    response_type: 'id_token token',
+    scope: 'openid profile flagsApi.read roles',
+    filterProtocolClaims: true,
+    loadUserInfo: true,
+    automaticSilentRenew: true,
+    silent_redirect_uri: 'http://localhost:4200/silent-refresh.html',
+  }
 }

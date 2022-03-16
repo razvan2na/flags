@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { tokenGetter } from '../app.module';
 import { User } from '../models/user';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,12 @@ export class UserService {
 
   private apiUrl: string = `${environment.apiUrl}/users`;
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private authService: AuthenticationService) { }
 
   public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}`, {
       headers : {
-          "Authorization": 'Bearer ' + tokenGetter()
+        "Authorization": this.authService.authHeader
       }   
     })
   }
@@ -28,20 +29,12 @@ export class UserService {
 
     if (!requestEmail)
     {
-      const token = localStorage.getItem('token')
-
-      if (!token)
-      {
-        throw new Error("There is no token!");
-      }
-  
-      const decodedToken = this.jwtHelper.decodeToken(token)
-      requestEmail = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"]
+      requestEmail = this.authService.name;
     }
 
     return this.http.get<User>(`${this.apiUrl}/${requestEmail}`, {
       headers : {
-          "Authorization": 'Bearer ' + tokenGetter()
+        "Authorization": this.authService.authHeader
       }   
     })
   }
@@ -49,7 +42,7 @@ export class UserService {
   public addCountryToUser(email: string, code: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${email}/add/${code}`, null, {
       headers : {
-          "Authorization": 'Bearer ' + tokenGetter()
+        "Authorization": this.authService.authHeader
       }   
     });
   }
@@ -57,7 +50,7 @@ export class UserService {
   public removeCountryFromUser(email: string, code: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${email}/remove/${code}`, null, {
       headers : {
-          "Authorization": 'Bearer ' + tokenGetter()
+        "Authorization": this.authService.authHeader
       }   
     });
   }

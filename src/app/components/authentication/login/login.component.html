@@ -1,14 +1,5 @@
 <form>
-  <mat-form-field class="field" appearance="fill">
-    <mat-label>Email</mat-label>
-    <input matInput name="email" [(ngModel)]="request.email">
-  </mat-form-field>
-
-  <mat-form-field class="field" appearance="fill">
-    <mat-label>Password</mat-label>
-    <input type="password" matInput name="password" [(ngModel)]="request.password">
-  </mat-form-field>
+  <h4>Login with IdentityServer4</h4>
 
   <button mat-flat-button color="primary" (click)="login()">Login</button>
 </form>
-
