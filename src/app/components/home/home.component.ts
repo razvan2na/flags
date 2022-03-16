@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
   private loadCountries(): void {
-    this.userService.getUser()
+    this.userService.getMyUser()
       .subscribe(result => this.countries = result.countries);
   }
 

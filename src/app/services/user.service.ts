@@ -24,6 +24,14 @@ export class UserService {
     })
   }
 
+  public getMyUser(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/my`, {
+      headers : {
+        "Authorization": this.authService.authHeader
+      }   
+    })
+  }
+
   public getUser(email?: string): Observable<User> {
     let requestEmail = email;
 
@@ -32,7 +40,7 @@ export class UserService {
       requestEmail = this.authService.name;
     }
 
-    return this.http.get<User>(`${this.apiUrl}/${requestEmail}`, {
+    return this.http.get<User>(`${this.apiUrl}/${email}`, {
       headers : {
         "Authorization": this.authService.authHeader
       }   
